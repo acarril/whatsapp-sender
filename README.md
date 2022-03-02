@@ -5,7 +5,7 @@ A simple program to automate sending Whatsapp messages using Twilio.
 ## Installation
 
 1. Clone this repository and navigate to its direcotry.
-2. Make sure you have Python 3.8.6 (see [.python-version.txt](.python-version.txt))
+2. Make sure you have Python 3.8.6 (see [.python-version](.python-version.txt))
 3. As usual, it is recommended to create a virtual environment for the application. For example, by running
 ```bash
 python -m venv .venv
@@ -13,7 +13,7 @@ python -m venv .venv
 
 ### Dependencies
 
-This application requires Python 3.8.6 (see [.python-version.txt](.python-version.txt)). Install all required modules in your environmnet by running
+This application requires Python 3.8.6 (see [.python-version](.python-version.txt)). Install all required modules in your environmnet by running
 ```sh
 pip install -r requirements.txt
 ```
@@ -63,3 +63,17 @@ Lastly, you'll need a database of users which will receive the message. By defau
 ```
 Note that the `cellphone` column has to have numbers that include country code: Alice has a country code of `1` (i.e. USA), and Bob has a country code of `56` (i.e. Chile).
 
+
+## Usage
+
+```
+usage: sender.py [-h] [-r [RECIPIENTS]] [-s [SECRET]] [-t [TEMPLATE]] [-n [NUMBER_COL]] [-f [FILL_COLS [FILL_COLS ...]]]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -r [RECIPIENTS], --recipients [RECIPIENTS]
+  -s [SECRET], --secret [SECRET]
+  -t [TEMPLATE], --template [TEMPLATE]
+  -n [NUMBER_COL], --number-col [NUMBER_COL]
+  -f [FILL_COLS [FILL_COLS ...]], --fill-cols [FILL_COLS [FILL_COLS ...]]
+```
