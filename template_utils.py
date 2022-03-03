@@ -16,11 +16,3 @@ def custom_message_from_template(template_text:str, fields:list=['foo', 'bar']) 
     )
     # Return message with substitutions using fields map
     return re.sub(pattern, lambda x: fields_map[x.group()], template_text)
-
-
-def read_template_message(filepath:str='inputs/template.txt') -> str:
-    # Read template message text
-    with open(filepath, 'r') as file:
-        lines = file.readlines()
-    msg = ' '.join(lines)
-    return msg

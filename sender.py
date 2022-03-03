@@ -5,7 +5,7 @@ from distutils.util import strtobool
 import sys
 from twilio.rest import Client
 import json
-from template_utils import custom_message_from_template, read_template_message
+from template_utils import custom_message_from_template
 import re
 
 class Zender:
