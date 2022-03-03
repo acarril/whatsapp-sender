@@ -51,7 +51,7 @@ This information should be written in JSON format. By default, the program will 
     "sender_number": "12345678901"
 }
 ```
-**Note that the sender number must contain the country code _without_ the `+` sign.** The information above is fake; use your own credentials and sender number.
+**Note that the sender number must contain the country code _without_ the `+` sign.**
 
 ### 2. Approved template message
 
@@ -79,6 +79,8 @@ Note that this column has to have numbers that include country code _without_ th
 Additional columns are optional, and can be used to fill placeholder values in the [Twilio template](https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates).  See [Usage](#usage) for information about how to use these additional columns.
 ## Usage
 
+Make sure you have gone through the [installation](#installation) and [set up](#set-up) processes. General usage is described in the help file, which we print here:
+
 ```
 usage: sender.py [-h] [-r [RECIPIENTS]] [-s [SECRET]] [-t [TEMPLATE]] [-n [NUMBER_COL]] [-f [FILL_COLS [FILL_COLS ...]]]
 
@@ -89,4 +91,70 @@ optional arguments:
   -t [TEMPLATE], --template [TEMPLATE]
   -n [NUMBER_COL], --number-col [NUMBER_COL]
   -f [FILL_COLS [FILL_COLS ...]], --fill-cols [FILL_COLS [FILL_COLS ...]]
+```
+
+### Examples
+
+Examples below assume a simple starting point and then grow in complexity. We assume a recipient database that is
+```
+| index | cellphone   | name  | country |
+|-------|-------------|-------|---------|
+| 1     | 11234567890 | Alice | USA     |
+| 2     | 56987654321 | Bob   | Chile   |
+```
+and a template text that reads
+```
+Hello, my name is Han-Tyumi. I am a chatbot.
+```
+All filenames and filepaths are the program's defaults,
+```
+inputs
+├── recipients.csv
+├── secret.json
+└── template.txt
+```
+
+#### Minimum example with defaults
+
+Assuming you've [set up](#set-up) everything using the default filepaths, and that your template message doesn't require any inputs (i.e. it doesn't have any placeholder values), then the program can be executed simply with
+```bash
+python sender.py
+```
+
+#### Specifying the cellphone column
+
+Suppose now that the column containing cellphone numbers is named something different from `cellphone`, like `phonez`. We can specify the name of the cellphone numbers explicitely with
+```bash
+python sender.py -n phonez
+```
+
+#### Specifying placeholder values
+
+Suppose now that your template message is the following:
+```
+Hello {{1}} from {{2}}, my name is Han-Tyumi. I am a chatbot.
+```
+This template message requires that we specify two columns to fill the information in the placeholders.
+Suppose your dataset in `./inputs/recipients.csv` is something like
+```
+| index | cellphone   | name  | country |
+|-------|-------------|-------|---------|
+| 1     | 11234567890 | Alice | USA     |
+| 2     | 56987654321 | Bob   | Chile   |
+```
+We need to tell the program that the first placeholder value is to be taken from the column named `name`, and the second one from `country`. We do this by using the `-f` flag (`--fill-cols`), and we give the names of the columns sequentially (i.e. the order matters):
+```bash
+python sender.py -f name country
+```
+
+#### Specifying different filepaths for inputs
+
+Suppose that you want to try a different template text that is located in `./template2.txt`. This template text reads
+```
+Hello {{1}}, my name is Han-Tyumi. I am a chatbot.
+```
+The recipients database is the same as in the example above.
+We run the program with the `-f` flag to fill the placeholder value with the `name` column, and we specify the location of the template text with the `-t` flag:
+```bash
+python sender.py -f name -t template2.txt
 ```
