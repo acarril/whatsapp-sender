@@ -23,12 +23,12 @@ pip install -r requirements.txt
 
 ## Set up
 
-In order to send messages the program requires
-1. [Twilio credentials](http://twil.io/secure) (i.e. Account SID and Auth token),
+In order to send messages the program requires that you provide
+1. [Twilio credentials](http://twil.io/secure) (i.e. Account SID and Auth token) and sender number,
 2. an approved [template message](https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates), and
-3. a database of users to send the messages.
+3. a database of users to send the messages to.
 
-By default, the program will look for these files in `./inputs/`, using the filenames listed below. Note that this directory and these files must be created by the user.
+By default, the program will look for these files in the `./inputs` subdirectory, using the filenames listed below.
 ```
 inputs
 ├── recipients.csv
@@ -36,11 +36,12 @@ inputs
 └── template.txt
 ```
 
-### 1 Twilio credentials and Sender number
+You can specify different filename/filepaths from these defaults (see [Usage](#usage)). **Note that this subdirectory and these files must be created by the user; details are provided in the following subsections.**
 
-You'll need the Twilio Account SID and Auth token so that the program can securely access your account resources. Both values can be found in your [Twilio Console](https://console.twilio.com/). You'll also need to provide the Whatsapp sender number, which can be found [here](https://www.twilio.com/console/sms/whatsapp/senders).
+### 1. Twilio credentials and Sender number
 
-This information should be written in a JSON file (or any text file). By default, the program will look for this information in `./inputs/secret.json`. The file must have the following structure:
+You'll need the [Twilio Account SID and Auth token](http://twil.io/secure) so that the program can securely access your account resources. Both values can be found in your [Twilio Console](https://console.twilio.com/). You'll also need to provide the Whatsapp sender number, which can be found [here](https://www.twilio.com/console/sms/whatsapp/senders).
+This information should be written in JSON format. By default, the program will look for this information in `./inputs/secret.json`. The information has to be written in JSON format, using the following structure:
 ```json
 // ./inputs/secret.json
 // info below is fake
@@ -52,10 +53,9 @@ This information should be written in a JSON file (or any text file). By default
 ```
 **Note that the sender number must contain the country code _without_ the `+` sign.** The information above is fake; use your own credentials and sender number.
 
-### 2 Approved template message
+### 2. Approved template message
 
 You can only send Whatsapp messages via Twilio using pre-approved [templates](https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates). You can find all your pre-approved messages [here](https://www.twilio.com/console/sms/whatsapp/templates).
-
 Copy the template message text you want to use and paste it in a text file. By default, the program will look for this information in `./inputs/template.txt`. The file must be something like:
 ```
 Hello {{1}}, my name is Han-Tyumi. I am a chatbot.
@@ -63,18 +63,20 @@ Hello {{1}}, my name is Han-Tyumi. I am a chatbot.
 **The message must be copied exactly as it is shown in the message text column. Make sure not to add any new lines above or below the text.**
 
 
-### 3 Recipients database
+### 3. Recipients database
 
-Lastly, you'll need a database of users which will receive the message. By default, the program will look for this information in `./inputs/twilio-db.csv`. The file must have the following structure:
+Lastly, you'll need a database of users which will receive the message. By default, the program will look for this information in `./inputs/twilio-db.csv`. The database must be a CSV file, with a structure similar to the example below.
 ```
-| index | cellphone   | name  |
-|-------|-------------|-------|
-| 1     | 11234567890 | Alice |
-| 2     | 56987654321 | Bob   |
+| index | cellphone   | name  | country |
+|-------|-------------|-------|---------|
+| 1     | 11234567890 | Alice | USA     |
+| 2     | 56987654321 | Bob   | Chile   |
 ```
-Note that the `cellphone` column has to have numbers that include country code: Alice has a country code of `1` (i.e. USA), and Bob has a country code of `56` (i.e. Chile).
+The bare minimum that the database must have is a column with cellphone numbers.
+By default, the program will look for this information in a column named `cellphone`, but any name can be specified; see [Usage](#usage) below.
+Note that this column has to have numbers that include country code _without_ the `+` sign: Alice has a country code of `1` (i.e. USA), and Bob has a country code of `56` (i.e. Chile).
 
-
+Additional columns are optional, and can be used to fill placeholder values in the [Twilio template](https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates).  See [Usage](#usage) for information about how to use these additional columns.
 ## Usage
 
 ```
