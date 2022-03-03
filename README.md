@@ -2,6 +2,20 @@
 
 A simple program to automate sending Whatsapp messages using Twilio.
 
+- [Simple Twilio Whatsapp sender](#simple-twilio-whatsapp-sender)
+  - [Installation](#installation)
+    - [Dependencies](#dependencies)
+  - [Set up](#set-up)
+    - [1. Twilio credentials and Sender number](#1-twilio-credentials-and-sender-number)
+    - [2. Approved template message](#2-approved-template-message)
+    - [3. Recipients database](#3-recipients-database)
+  - [Usage](#usage)
+    - [Examples](#examples)
+      - [Minimum example with defaults](#minimum-example-with-defaults)
+      - [Specifying the cellphone column](#specifying-the-cellphone-column)
+      - [Specifying placeholder values](#specifying-placeholder-values)
+      - [Specifying different filepaths for inputs](#specifying-different-filepaths-for-inputs)
+
 ## Installation
 
 1. Clone this repository and navigate to its direcotry.
