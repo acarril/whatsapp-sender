@@ -8,12 +8,15 @@ A simple program to automate sending Whatsapp messages using Twilio.
 2. Make sure you have Python 3.8.6 (see [.python-version](.python-version.txt))
 3. As usual, it is recommended to create a virtual environment for the application. For example, by running
 ```bash
+# create virtual environment (run only once)
 python -m venv .venv
+# activate environment (run only once per session)
+source .venv/bin/activate
 ```
 
 ### Dependencies
 
-This application requires Python 3.8.6 (see [.python-version](.python-version.txt)). Install all required modules in your environmnet by running
+Install all required modules in your environmnet by running
 ```sh
 pip install -r requirements.txt
 ```
@@ -24,6 +27,14 @@ In order to send messages the program requires
 1. [Twilio credentials](http://twil.io/secure) (i.e. Account SID and Auth token),
 2. an approved [template message](https://www.twilio.com/docs/whatsapp/tutorial/send-whatsapp-notification-messages-templates), and
 3. a database of users to send the messages.
+
+By default, the program will look for these files in `./inputs/`, using the filenames listed below. Note that this directory and these files must be created by the user.
+```
+inputs
+├── recipients.csv
+├── secret.json
+└── template.txt
+```
 
 ### 1 Twilio credentials and Sender number
 
